@@ -1,0 +1,38 @@
+security:
+  encoders:
+    App\Entity\User: bcrypt # or argon2i
+
+  # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+  providers:
+    database_users:
+      entity: { class: App:User, property: username }
+  firewalls:
+    dev:
+        pattern: ^/(_(profiler|wdt)|css|images|js)/
+        security: false
+        
+    login:
+        pattern: ^/api/token
+        provider: database_users
+        stateless: true
+        anonymous: true
+    
+    refresh:
+        pattern:  ^/api/token/refresh
+        stateless: true
+        anonymous: true
+
+    api:
+        pattern:  ^/api
+        http_basic: ~
+        stateless: true
+        provider: database_users
+        guard:
+            authenticators:
+                - App\Security\JwtAuthenticator
+        logout:
+            path: admin_logout
+  access_control:
+    - { path: ^/api/token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      # form_login: ~
+      # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
