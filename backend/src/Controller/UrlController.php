@@ -134,4 +134,17 @@ class UrlController extends AbstractController
 
     	throw new BadRequestHttpException('Invalid Data');
     }
+
+    /**
+     * @Route("/", name="url_get_public", methods="GET")
+     */
+    public function getPublic(SerializerInterface $serializer): Response
+    {
+        
+        $urls = $this->getDoctrine()
+            ->getRepository(Url::class)
+            ->findBy(['private'=>0]);
+
+        return JsonResponse::fromJsonString($serializer->serialize($urls,'json'));
+    }
 }
