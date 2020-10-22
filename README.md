@@ -5,9 +5,12 @@ An application to convert wordy URLs to much simiplier ones. Utilizing Symfony 5
 ## Install with Docker-Compose
 
 ```
-    $ composer create-project anorryce/url1y myProject
+    $ git clone https://github.com/anorryce/url1y
+    $ cd url1y
+    $ docker-compose up --build
 ```
 
-The backend api was created with boilerplate from https://github.com/lexik/LexikJWTAuthenticationBundle
+![Database Schema](/schema.png)
+Format: ![Alt Text](Database Schema)
 
-Please refer to the above page for how-tos about the JWT and user login side of the backend.
+
