@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { NgZone } from '@angular/core';
+import {  takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
 import { APIService } from '../api.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -7,41 +9,59 @@ import { Router } from '@angular/router';
 import { TokenService } from '../token.service';
 
 @Component({
-  selector: 'app-hello',
+  selector: 'app-urls',
   templateUrl: './url.component.html',
   styleUrls: ['./url.component.css']
 })
 export class UrlComponent implements OnInit {
-  $urls: Observable<any>;
-  helloMessage: Array<any>;
+  urlList: Observable<any>;
+  editField: string;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private apiService: APIService,
     private tokenService: TokenService,
-    private router: Router
+    private router: Router,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
-    // Example API call showing an Hello World
-    this.$urls = this.apiService.getPublicUrls();
-
-    this.$urls.subscribe(
-      // Show API response
-      url => {
-        console.log(url);
-        this.helloMessage = url[0].longUrl;
-      },
-      // Log error message and redirect to login
-      (error: HttpErrorResponse) => {
-        console.error(error);
-        if (error.status === 401) {
-          return this.router.navigate(['']);
-        }
-      }
-    );
+    this.readUrls();
   }
 
-  onGoBack() {
-    return this.router.navigate(['']);
+  readUrls(): void {
+    this.urlList = this.apiService.getPublicUrls();
+  }
+
+  /*
+  updateList(id: number, property: string, event: any) {
+    const editField = event.target.textContent;
+    this.personList[id][property] = editField;
+  }
+  */
+
+  remove(shortUrl: any) {
+    this.apiService.deletePublicUrl(shortUrl).subscribe(
+        response => {
+          console.log(response);
+          this.readUrls();
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  changeValue(id: number, property: string, event: any) {
+    this.editField = event.target.textContent;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    // Unsubscribe from the subject
+    this.destroy$.unsubscribe();
+  }
+
+  qrcode(shortUrl: any){
+    this.zone.run(() => { this.router.navigate(['/qrcode', shortUrl]); });
   }
 }

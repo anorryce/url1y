@@ -1,24 +1,29 @@
-<div style="width: 500px; margin: auto;">
+<div style="width: 100%;">
   <div class="submit-form">
-    <div *ngIf="!submitted">
       <div class="form-group">
-        <label for="long_url">URL</label>
-        <input
-          type="text"
-          class="form-control"
-          id="long_url"
-          required
-          [(ngModel)]="url.long_url"
-          name="long_url"
-        />
+        <form [formGroup]="form" (ngSubmit) = "submit()">
+          <input
+            type="text"
+            class="form-control"
+            id="long_url"
+            placeholder="Enter URL Here"
+            required
+            formControlName="long_url"
+          />&nbsp;
+          <button type="submit" mdbBtn gradient="blue" rounded="true" mdbWavesEffect [disabled]="!form.valid">Create</button>
+        </form>
       </div>
 
-      <button (click)="createUrl()" class="btn btn-success">Create</button>
-    </div>
-
-    <div *ngIf="submitted">
-      <h3>You successfully created a short URL!</h3>
-      <button class="btn btn-success" (click)="newUrl()">New..</button>
-    </div>
   </div>
 </div>
+
+<ng-container *ngIf="f.long_url.touched && f.long_url.invalid" class="alert alert-danger">
+    <div *ngIf="f.long_url.errors.required">URL is required.</div>
+    <div *ngIf="f.long_url.errors.pattern">Please enter a valid long_url.</div>
+</ng-container>
+<!----
+<div *ngIf="submitted">
+  <div class="alert alert-success" role="alert" aria-label="Close">
+    You successfully created the short URL: {{ createdShortUrl }}!
+  </div>
+</div>--->

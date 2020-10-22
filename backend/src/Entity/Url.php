@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UrlRepository;
 use App\Validator\Constraints as AppAssert;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,6 +14,8 @@ use App\Utils\ShortUrlGenerator;
 /**
  * @ORM\Entity(repositoryClass=UrlRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"long_url"}, message="This url was already created!")
+ * @UniqueEntity(fields={"short_url"}, message="This short url is already taken!")
  */
 class Url
 {
@@ -24,7 +27,7 @@ class Url
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=2048, nullable=false)
+     * @ORM\Column(type="string", length=2048, nullable=false, unique=true)
      * @AppAssert\ValidUrl
      */
     private $long_url;

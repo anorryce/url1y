@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 
 import { APIService } from '../api.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { TokenService } from '../token.service';
 
 @Component({
@@ -11,42 +10,34 @@ import { TokenService } from '../token.service';
   templateUrl: './url-create.component.html',
   styleUrls: ['./url-create.component.css']
 })
-export class UrlCreateComponent implements OnInit {
-  url = {
-    long_url: ''
-  };
-  submitted = false;
+export class UrlCreateComponent {
+  form: FormGroup = new FormGroup({});
+  baseUrl: string = '';
 
   constructor(
     private apiService: APIService,
-    private tokenService: TokenService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
+    private fb: FormBuilder
+  ) {
+    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+    this.form = fb.group({
+      long_url: ['', [Validators.required, Validators.pattern(reg)]]
+    });
   }
 
-  createUrl(): void {
-    const data = {
-      long_url: this.url.long_url
-    };
+  get f(){
+    return this.form.controls;
+  }
 
-    this.apiService.createPublicUrl(data)
+  submit(){
+    this.apiService.createPublicUrl({long_url: this.form.value.long_url})
       .subscribe(
         response => {
-          console.log(response);
-          this.submitted = true;
+          this.form.reset();
+          window.location.reload();
         },
         error => {
           console.log(error);
         });
-  }
-
-  newUrl(): void {
-    this.submitted = false;
-    this.url = {
-      long_url: ''
-    };
   }
 
 }
