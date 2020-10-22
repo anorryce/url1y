@@ -9,8 +9,10 @@ An application to convert wordy URLs to much simiplier ones. Utilizing Symfony 5
     $ cd url1y
     $ docker-compose up --build
 ```
+## Database Schema:
+
+**long and short_url fields on the url table are VARCHAR(2048), not VARCHAR(255)
 
 ![Database Schema](/schema.png)
-Format: ![Alt Text](Database Schema)
 
 
