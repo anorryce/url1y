@@ -1,0 +1,24 @@
+<div style="width: 500px; margin: auto;">
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="long_url">URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="long_url"
+          required
+          [(ngModel)]="url.long_url"
+          name="long_url"
+        />
+      </div>
+
+      <button (click)="createUrl()" class="btn btn-success">Create</button>
+    </div>
+
+    <div *ngIf="submitted">
+      <h3>You successfully created a short URL!</h3>
+      <button class="btn btn-success" (click)="newUrl()">New..</button>
+    </div>
+  </div>
+</div>

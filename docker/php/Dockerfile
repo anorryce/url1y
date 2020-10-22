@@ -20,6 +20,8 @@ WORKDIR /usr/src/app
 
 COPY backend /usr/src/app
 
+EXPOSE 4100
+
 RUN PATH=$PATH:/usr/src/apps/vendor/bin:bin
 
-RUN php bin/console doctrine:migrations:migrate
+#RUN php bin/console doctrine:migrations:migrate
