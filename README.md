@@ -9,6 +9,12 @@ An application to convert wordy URLs to much simiplier ones. Utilizing Symfony 5
     $ cd url1y
     $ docker-compose up --build
 ```
+Once all containers are up, run the following command in the php container:
+```
+    $ RUN php bin/console doctrine:migrations:migrate
+```
+This will start the doctrine migration script to migrate the mysql database with the tables need for the backend.
+
 ## Database Schema:
 
 **long and short_url fields on the url table are VARCHAR(2048), not VARCHAR(255)
