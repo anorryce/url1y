@@ -21,4 +21,10 @@ This will start the doctrine migration script to migrate the mysql database with
 
 ![Database Schema](/schema.png)
 
+## API:
+
+You can test out the API functionality with the following Postman collection:
+
+https://www.getpostman.com/collections/872b2bd036d32a80a930
+
 
