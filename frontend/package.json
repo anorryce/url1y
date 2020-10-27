@@ -8,10 +8,11 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "publishheroku": "cd ../../ && git subtree push --prefix urlly/frontend url1y master || true"
+    "publishheroku": "cd ../ && git subtree push --prefix frontend url1y master || true"
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "~10.1.6",
     "@angular/animations": "~10.1.6",
     "@angular/cdk": "^10.2.5",
     "@angular/common": "~10.1.6",
