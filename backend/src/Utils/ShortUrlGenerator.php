@@ -5,8 +5,8 @@ namespace App\Utils;
 
 class ShortUrlGenerator implements ShortUrlGeneratorInterface
 {
-	private int $maxShortUrlLength;
-	private int $minShortUrlLength;
+	private $maxShortUrlLength;
+	private $minShortUrlLength;
 
 	public function __construct(){
 		$this->maxShortUrlLength = 9;
