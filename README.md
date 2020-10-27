@@ -2,6 +2,13 @@
 
 An application to convert wordy URLs to much simiplier ones. Utilizing Symfony 5.1 as a backend REST API and Angular 10 as a frontend.
 
+## Live Demo
+
+A live demo of the application can be viewed here:
+
+Web: https://url1y.herokuapp.com/
+API: https://url1y-api.herokuapp.com/
+
 ## Install with Docker-Compose
 
 ```
